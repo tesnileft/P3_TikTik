@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31727.386
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TickTick", "TickTick\TickTick.csproj", "{9E9D5D39-C5BB-4E73-AC5B-BD944B39D45E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{49E713C9-DBA0-48FE-8EA5-2E41B883D74C} = {49E713C9-DBA0-48FE-8EA5-2E41B883D74C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{49E713C9-DBA0-48FE-8EA5-2E41B883D74C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E9D5D39-C5BB-4E73-AC5B-BD944B39D45E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E9D5D39-C5BB-4E73-AC5B-BD944B39D45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E9D5D39-C5BB-4E73-AC5B-BD944B39D45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E9D5D39-C5BB-4E73-AC5B-BD944B39D45E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49E713C9-DBA0-48FE-8EA5-2E41B883D74C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49E713C9-DBA0-48FE-8EA5-2E41B883D74C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49E713C9-DBA0-48FE-8EA5-2E41B883D74C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49E713C9-DBA0-48FE-8EA5-2E41B883D74C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7DC14311-C914-4DE2-B088-82AC1F800FC3}
+	EndGlobalSection
+EndGlobal
