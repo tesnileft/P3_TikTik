@@ -60,8 +60,17 @@ namespace Engine
                 return;
 
             // draw the sprite at its *global* position in the game world
-            if (sprite != null)
+            if (sprite == null)
+                return;
+            if (this.depth is < 0.8f and > 0)
+            {
+                sprite.Draw(spriteBatch, GlobalPosition + Camera.cameraOffset, Origin);
+            }
+            else
+            {
                 sprite.Draw(spriteBatch, GlobalPosition, Origin);
+            }
+
         }
 
         /// <summary>

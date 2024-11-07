@@ -10,7 +10,7 @@ partial class Level : GameObjectList
 
     Tile[,] tiles;
     List<WaterDrop> waterDrops;
-
+    
     public Player Player { get; private set; }
     public int LevelIndex { get; private set; }
 
@@ -18,7 +18,8 @@ partial class Level : GameObjectList
     BombTimer timer;
 
     bool completionDetected;
-
+    
+    Camera playerCamera;
     public Level(int levelIndex, string filename)
     {
         LevelIndex = levelIndex;
@@ -54,6 +55,9 @@ partial class Level : GameObjectList
         // add clouds
         for (int i = 0; i < 6; i++)
             backgrounds.AddChild(new Cloud(this));
+        
+        //Initialize Camera
+        playerCamera = new (BoundingBox);
     }
 
     public Rectangle BoundingBox
@@ -106,7 +110,8 @@ partial class Level : GameObjectList
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-
+        playerCamera.Update(gameTime, Player.GlobalPosition);
+        
         // check if we've finished the level
         if (!completionDetected && AllDropsCollected && Player.HasPixelPreciseCollision(goal))
         {
