@@ -5,7 +5,7 @@ using System;
 class BombTimer : GameObjectList
 {
     double timeLeft;
-
+    double maxDuration = 30;
     public bool Running { get; set; }
     public float Multiplier { get; set; }
 
@@ -13,8 +13,9 @@ class BombTimer : GameObjectList
 
     public bool HasPassed { get { return timeLeft <= 0; } }
 
-    public BombTimer()
+    public BombTimer(int duration = 30)
     {
+        maxDuration = duration;
         localPosition = new Vector2(20, 20);
         
         // add a background image
@@ -28,6 +29,8 @@ class BombTimer : GameObjectList
 
         Reset();
     }
+
+    
 
     public override void Update(GameTime gameTime)
     {
@@ -62,7 +65,7 @@ class BombTimer : GameObjectList
     public override void Reset()
     {
         base.Reset();
-        timeLeft = 30;
+        timeLeft = maxDuration;
         Running = true;
         Multiplier = 1;
     }
