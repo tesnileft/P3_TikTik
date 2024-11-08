@@ -7,7 +7,7 @@ partial class Level : GameObjectList
 {
     public const int TileWidth = 72;
     public const int TileHeight = 55;
-
+    
     Tile[,] tiles;
     List<WaterDrop> waterDrops;
     
@@ -15,6 +15,7 @@ partial class Level : GameObjectList
     public int LevelIndex { get; private set; }
 
     SpriteGameObject goal;
+    double maxTimeLeft = 30d;
     BombTimer timer;
 
     bool completionDetected;
@@ -36,7 +37,7 @@ partial class Level : GameObjectList
         LoadLevelFromFile(filename);
 
         // add the timer
-        timer = new BombTimer();
+        timer = new BombTimer(maxTimeLeft);
         AddChild(timer);
 
         // add mountains in the background

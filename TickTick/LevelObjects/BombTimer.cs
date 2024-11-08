@@ -13,7 +13,7 @@ class BombTimer : GameObjectList
 
     public bool HasPassed { get { return timeLeft <= 0; } }
 
-    public BombTimer(int duration = 30)
+    public BombTimer(double duration = 30)
     {
         maxDuration = duration;
         localPosition = new Vector2(20, 20);

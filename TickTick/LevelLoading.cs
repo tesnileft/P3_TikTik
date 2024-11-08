@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using System;
+using Engine;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,35 @@ partial class Level : GameObjectList
         string line = reader.ReadLine();
         while (line != null)
         {
+            //Check for time limit line (this could be done with regex but no need for a simple pattern like this)
+            //Should look like <t:10>
+            if (line.Length > 3 && line[0] == '<' && line[1] == 't' && line[2] == ':')
+            {
+                string timeText = "";
+                for (int i = 3; i < line.Length; i++)
+                {
+                    //Close off the pattern
+                    if (line[i] == '>')
+                    {
+                        break;
+                    }
+
+                    timeText += line[i];
+                    if (i == line.Length - 1)
+                    {   
+                        //Uh oh
+                        throw new Exception("Invalid time limit definition: " + line);
+                    }
+                }
+                //Set max time Var
+                maxTimeLeft = double.Parse(timeText);
+                
+                //Don't add this line to the level lines
+                line = reader.ReadLine();
+                continue;
+            }
+            
+            
             if (line.Length > gridWidth)
                 gridWidth = line.Length;
 
