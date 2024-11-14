@@ -14,6 +14,10 @@ class Player : AnimatedGameObject
     const float normalFriction = 20; // Friction factor that determines how slippery a normal surface is.
     const float airFriction = 5; // Friction factor that determines how much (horizontal) air resistance there is.
 
+    private double coyoteTime = 0;
+    private double coyoteTimeThreshold = 0.2f;
+    private bool leftGround = false;
+    
     bool facingLeft; // Whether or not the character is currently looking to the left.
 
     bool isGrounded; // Whether or not the character is currently standing on something.
@@ -97,8 +101,12 @@ class Player : AnimatedGameObject
         }
 
         // spacebar: jump
-        if (isGrounded && inputHelper.KeyPressed(Keys.Space))
+        if ((isGrounded || coyoteTime < coyoteTimeThreshold) && inputHelper.KeyPressed(Keys.Space))
+        {
+            Console.WriteLine($"Coyote timer :{coyoteTime}");
+            coyoteTime += 100f; //Increase coyote time so it no longer triggers after jumping
             Jump();
+        }
 
         // falling?
         if (!isGrounded)
@@ -144,9 +152,21 @@ class Player : AnimatedGameObject
 
         if (!isExploding)
             ApplyGravity(gameTime);
-
+        
+        if (!isGrounded)
+        {
+            leftGround = true;
+            coyoteTime += gameTime.ElapsedGameTime.TotalSeconds;
+        }
+        
+        if (coyoteTime > coyoteTimeThreshold && isGrounded && leftGround)
+        {
+            leftGround = false;
+            coyoteTime = 0;
+        }
+        
         base.Update(gameTime);
-
+        
         if (IsAlive)
         {
             // check for collisions with tiles
