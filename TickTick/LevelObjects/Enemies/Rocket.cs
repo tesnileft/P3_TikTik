@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using System;
+using Engine;
 using Microsoft.Xna.Framework;
 
 /// <summary>
@@ -9,6 +10,7 @@ class Rocket : AnimatedGameObject
     Level level;
     Vector2 startPosition;
     const float speed = 500;
+    private bool dead = false;
 
     public Rocket(Level level, Vector2 startPosition, bool facingLeft) 
         : base(TickTick.Depth_LevelObjects)
@@ -36,6 +38,8 @@ class Rocket : AnimatedGameObject
     public override void Reset()
     {
         // go back to the starting position
+        dead = false;
+        velocity.Y = 0;
         LocalPosition = startPosition;
     }
 
@@ -49,8 +53,34 @@ class Rocket : AnimatedGameObject
         else if (!sprite.Mirror && BoundingBox.Left > level.BoundingBox.Right)
             Reset();
 
+        if (dead)
+        {
+            velocity.Y += 15;
+            if (BoundingBox.Top > level.BoundingBox.Bottom)
+            {
+                Reset();
+            }
+            return;
+        }
+
         // if the rocket touches the player, the player dies
         if (level.Player.CanCollideWithObjects && HasPixelPreciseCollision(level.Player))
-            level.Player.Die();
+            //Check if player is on top of the rocket
+            if (level.Player.BoundingBox.Bottom < BoundingBox.Bottom)
+            {
+                Die();
+                level.Player.SetYImpulse(- 600);
+            }
+            else
+            {
+                Console.WriteLine(level.Player.BoundingBox.Bottom.ToString() +" > " + BoundingBox.Bottom.ToString());
+                level.Player.Die();  
+            }
+            
+    }
+
+    public void Die()
+    {
+        dead = true;
     }
 }

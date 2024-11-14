@@ -309,4 +309,14 @@ class Player : AnimatedGameObject
         // stop moving
         velocity = Vector2.Zero;
     }
+
+    public void GiveImpulse(Vector2 impulse)
+    {
+        velocity += impulse;
+    }
+
+    public void SetYImpulse(int y)
+    {
+        velocity.Y = y;
+    }
 }
