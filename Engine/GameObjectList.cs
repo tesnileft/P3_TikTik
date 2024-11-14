@@ -74,5 +74,10 @@ namespace Engine
             foreach (GameObject obj in children)
                 obj.Reset();
         }
+
+        public void RemoveChild(GameObject o)
+        {
+            children.Remove(o);
+        }
     }
 }

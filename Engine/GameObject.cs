@@ -92,5 +92,10 @@ namespace Engine
                 return LocalPosition + Parent.GlobalPosition;
             }
         }
+
+        protected void Destroy()
+        {
+            (Parent as GameObjectList).RemoveChild(this);
+        }
     }
 }
