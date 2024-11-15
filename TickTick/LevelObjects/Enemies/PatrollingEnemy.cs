@@ -18,6 +18,8 @@ class PatrollingEnemy : AnimatedGameObject
     private bool doHop = false;
     private Vector2 hopTarget;
     private Vector2 hopOrigin;
+    private float hopTime = 0;
+    private float maxHopTime = 0.5f;
 
     public PatrollingEnemy(Level level, Vector2 startPosition) : base(TickTick.Depth_LevelObjects)
     {
@@ -48,7 +50,11 @@ class PatrollingEnemy : AnimatedGameObject
 
         // if we're waiting at the edge of a platform, turn around after some time
         //Or hop to a different platform, if possible
-        if (waitTime > 0)
+        if (doHop)
+        {
+            DoAHop(gameTime);
+        }
+        else if (waitTime > 0)
         {
             waitTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (waitTime <= 0)
@@ -116,16 +122,29 @@ class PatrollingEnemy : AnimatedGameObject
     /// </summary>
     protected void Hop(Vector2 position)
     {
-        hopTarget = position;
+        hopTarget = position + new Vector2(20, 0);
         hopOrigin = LocalPosition;
         doHop = true;
-        doHop = false;
-        
-        LocalPosition = position;
-        velocity.X = walkSpeed;
-        if (sprite.Mirror)
-            velocity.X *= -1;
+    }
 
+    protected void DoAHop(GameTime gameTime)
+    {
+        if (hopTime > maxHopTime)
+        {
+            doHop = false;
+            hopTime = 0;
+            LocalPosition = hopTarget;
+            velocity.X = walkSpeed;
+            if (sprite.Mirror)
+                velocity.X *= -1;
+            
+            return;
+        }
+        
+        float hopdiff = hopTime/maxHopTime;
+        
+        LocalPosition = hopdiff * hopTarget + (1- hopdiff) * hopOrigin;
+        hopTime += (float) gameTime.ElapsedGameTime.TotalSeconds;
     }
 
     protected Point[] GetHopPositions()
