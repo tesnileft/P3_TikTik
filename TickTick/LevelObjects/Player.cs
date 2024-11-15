@@ -103,7 +103,6 @@ class Player : AnimatedGameObject
         // spacebar: jump
         if ((isGrounded || coyoteTime < coyoteTimeThreshold) && inputHelper.KeyPressed(Keys.Space))
         {
-            Console.WriteLine($"Coyote timer :{coyoteTime}");
             coyoteTime += 100f; //Increase coyote time so it no longer triggers after jumping
             Jump();
         }

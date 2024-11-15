@@ -48,8 +48,8 @@ namespace Engine
         /// <param name="gameTime">An object containing information about the time that has passed in the game.</param>
         public override void Update(GameTime gameTime)
         {
-            foreach (GameObject obj in children)
-                obj.Update(gameTime);
+            for (int i = children.Count - 1; i >= 0; i--)
+                children[i].Update(gameTime);
         }
 
         /// <summary>
