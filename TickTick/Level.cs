@@ -45,7 +45,7 @@ partial class Level : GameObjectList
         {
             SpriteGameObject mountain = new SpriteGameObject(
                 "Sprites/Backgrounds/spr_mountain_" + (ExtendedGame.Random.Next(2) + 1),
-                TickTick.Depth_Background + 0.01f * (float)ExtendedGame.Random.NextDouble());
+                TickTick.Depth_Background + 0.1f * (float)ExtendedGame.Random.NextDouble());
 
             mountain.LocalPosition = new Vector2(mountain.Width * (i-1) * 0.4f, 
                 BoundingBox.Height - mountain.Height);

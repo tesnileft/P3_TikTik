@@ -5,6 +5,7 @@ using System;
 class TickTick : ExtendedGameWithLevels
 {
     public const float Depth_Background = 0; // for background images
+    public const float Depth_Mountains = 0.1f;
     public const float Depth_UIBackground = 0.9f; // for UI elements with text on top of them
     public const float Depth_UIForeground = 1; // for UI elements in front
     public const float Depth_LevelTiles = 0.5f; // for tiles in the level

@@ -62,13 +62,20 @@ namespace Engine
             // draw the sprite at its *global* position in the game world
             if (sprite == null)
                 return;
-            if (this.depth is < 0.8f and > 0)
+            switch (depth)
             {
-                sprite.Draw(spriteBatch, GlobalPosition + Camera.cameraOffset, Origin);
-            }
-            else
-            {
-                sprite.Draw(spriteBatch, GlobalPosition, Origin);
+                case < 0.5f :
+                    //Parallax
+                    sprite.Draw(spriteBatch, GlobalPosition + depth *  Camera.cameraOffset, Origin) ;
+                    break;
+                case < 0.8f:
+                    //Just apply camera offset
+                    sprite.Draw(spriteBatch, GlobalPosition + Camera.cameraOffset, Origin) ;
+                    break;
+                default:
+                    //By default, don't parallax or shift based on camera, UI layers
+                    sprite.Draw(spriteBatch, GlobalPosition, Origin);
+                    break;
             }
 
         }
