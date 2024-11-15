@@ -58,7 +58,7 @@ class PatrollingEnemy : AnimatedGameObject
                 if (hopPos.Length > 0)
                 {
                     //Teleport to available location
-                    LocalPosition = level.GetCellPosition(hopPos[0].X, hopPos[0].Y);
+                    Hop(level.GetCellPosition(hopPos[0].X, hopPos[0].Y));
                 }
                 else
                 {
@@ -119,7 +119,13 @@ class PatrollingEnemy : AnimatedGameObject
         hopTarget = position;
         hopOrigin = LocalPosition;
         doHop = true;
+        doHop = false;
         
+        LocalPosition = position;
+        velocity.X = walkSpeed;
+        if (sprite.Mirror)
+            velocity.X *= -1;
+
     }
 
     protected Point[] GetHopPositions()
