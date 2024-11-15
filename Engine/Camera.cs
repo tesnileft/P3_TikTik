@@ -33,7 +33,7 @@ public class Camera
 
         //Constrain Camera
         cameraOffset.X = Math.Clamp(cameraOffset.X, -maxPos.X , 0);
-        cameraOffset.Y = Math.Clamp(cameraOffset.Y, 0, maxPos.Y);
+        cameraOffset.Y = Math.Clamp(cameraOffset.Y, 0, maxPos.Y+200);
 
 
 

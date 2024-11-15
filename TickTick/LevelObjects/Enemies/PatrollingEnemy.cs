@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.AccessControl;
+using System.Threading;
 using Engine;
 using Microsoft.Xna.Framework;
 
@@ -20,6 +21,7 @@ class PatrollingEnemy : AnimatedGameObject
     private Vector2 hopOrigin;
     private float hopTime = 0;
     private float maxHopTime = 0.5f;
+    Random random = new Random();
 
     public PatrollingEnemy(Level level, Vector2 startPosition) : base(TickTick.Depth_LevelObjects)
     {
@@ -59,16 +61,19 @@ class PatrollingEnemy : AnimatedGameObject
             waitTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (waitTime <= 0)
             {
-                
-                var hopPos = GetHopPositions();
-                if (hopPos.Length > 0)
+                //Randomly hop or turn around
+                if (random.Next(2) == 1)
                 {
-                    //Teleport to available location
-                    Hop(level.GetCellPosition(hopPos[0].X, hopPos[0].Y));
+                    var hopPos = GetHopPositions();
+                    if (hopPos.Length > 0)
+                    {
+                        //Hop to an available location
+                        int i = random.Next(hopPos.Length -1);
+                        Hop(level.GetCellPosition(hopPos[i].X, hopPos[i].Y));
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Turning");
                     TurnAround();
                 }
             }
@@ -127,26 +132,32 @@ class PatrollingEnemy : AnimatedGameObject
         doHop = true;
     }
 
+    /// <summary>
+    /// Logic for calculating where the flame should be while it's hopping from platform to platform
+    /// </summary>
+    /// <param name="gameTime"></param>
     protected void DoAHop(GameTime gameTime)
     {
         if (hopTime > maxHopTime)
         {
+            //Reset after hop
             doHop = false;
             hopTime = 0;
             LocalPosition = hopTarget;
             velocity.X = walkSpeed;
             if (sprite.Mirror)
                 velocity.X *= -1;
-            
             return;
         }
-        
+        //just lerp between positions, it looks fine enough
         float hopdiff = hopTime/maxHopTime;
-        
         LocalPosition = hopdiff * hopTarget + (1- hopdiff) * hopOrigin;
         hopTime += (float) gameTime.ElapsedGameTime.TotalSeconds;
     }
-
+    /// <summary>
+    /// Gets the positions of where the flame could go if it decides it wants to hop
+    /// </summary>
+    /// <returns>List of points where the flame could hop to</returns>
     protected Point[] GetHopPositions()
     {
         List<Point> candidates = new();
@@ -164,11 +175,11 @@ class PatrollingEnemy : AnimatedGameObject
         {
             direction = -1;
         }
-        int[] checkX = {direction * 1, direction * 2, direction * 3};
+        int[] checkX = {direction * 1, direction * 2, direction * 3, direction * 4};
         //I love nested code
         for (int i = 0; i < checkX.Length; i++)
         {
-            for (int y = -1; y <= 1; y++)
+            for (int y = -2; y <= 2; y++)
             {
                 int x = checkX[i];
                 Point checkPoint = new(tilePos.X + x, tilePos.Y + y);
@@ -183,17 +194,19 @@ class PatrollingEnemy : AnimatedGameObject
                         level.GetCellPosition(checkPoint.X, checkPoint.Y);
                         candidates.Add(checkPoint);
                     }
-                
                 } 
             }
-            
         }
         foreach (Point candidate in candidates)
             Console.WriteLine(candidate);
-        
         return candidates.ToArray();
     }
-
+    /// <summary>
+    /// Checks which tiles we know are adjacent to the one we are standing on, so we don't hop to the same platform
+    /// </summary>
+    /// <param name="point"></param>
+    /// <param name="knowAdjacent"></param>
+    /// <returns></returns>
     bool CheckAdjacent(Point point, List<Point> knowAdjacent)
     {
         foreach (var p in knowAdjacent)

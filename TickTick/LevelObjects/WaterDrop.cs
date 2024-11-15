@@ -29,7 +29,6 @@ class WaterDrop : SpriteGameObject
         // check if the player collects this water drop
         if (Visible && level.Player.CanCollideWithObjects && HasPixelPreciseCollision(level.Player))
         {
-            Destroy();
             Visible = false;
             ExtendedGame.AssetManager.PlaySoundEffect("Sounds/snd_watercollected");
         }
